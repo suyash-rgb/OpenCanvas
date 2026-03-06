@@ -4,14 +4,19 @@ import React, { useRef, useEffect, useState } from 'react';
 import { Stage, Layer } from 'react-konva';
 import { useSelector, useDispatch } from 'react-redux';
 import { useDrawingLogic } from '../../hooks/useDrawingLogic';
+import { useCanvasShortcuts } from '../../hooks/useCanvasShortcuts';
 import { setCanvasView, setSelected } from '../../store/canvasSlice';
 import StaticLayer from './StaticLayer';
 import ActiveLayer from './ActiveLayer';
 import ToolPalette from '../ui/ToolPalette';
+import ExportMenu from '../ui/ExportMenu';
 
 export default function CanvasStage() {
     const dispatch = useDispatch();
     const stageRef = useRef(null);
+
+    // Initialize keyboard shortcuts
+    useCanvasShortcuts();
 
     // Use a state for dimensions since window is undefined on server
     const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -87,6 +92,7 @@ export default function CanvasStage() {
     return (
         <div className="canvas-container">
             <ToolPalette />
+            <ExportMenu stageRef={stageRef} />
 
             <Stage
                 width={dimensions.width}

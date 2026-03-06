@@ -32,6 +32,8 @@ export const useDrawingLogic = (stageRef) => {
         currentShapeId.current = id;
         pointsRef.current = [pos.x, pos.y];
 
+        dispatch({ type: 'canvas/saveHistory' });
+
         dispatch(
             addElement({
                 id,

@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTool } from '../../store/canvasSlice';
-import { MousePointer2, Square, PenLine, ArrowUpRight } from 'lucide-react';
+import { MousePointer2, Square, Circle, Type, PenLine, ArrowUpRight } from 'lucide-react';
 
 const tools = [
     { id: 'selection', icon: MousePointer2, label: 'Selection' },
     { id: 'rectangle', icon: Square, label: 'Rectangle' },
+    { id: 'ellipse', icon: Circle, label: 'Ellipse' },
+    { id: 'text', icon: Type, label: 'Text' },
     { id: 'arrow', icon: ArrowUpRight, label: 'Arrow' },
     { id: 'scribble', icon: PenLine, label: 'Draw' },
 ];

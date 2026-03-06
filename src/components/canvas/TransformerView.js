@@ -50,6 +50,7 @@ const TransformerView = () => {
     return (
         <Transformer
             ref={trRef}
+            onTransformStart={() => dispatch({ type: 'canvas/saveHistory' })}
             onTransformEnd={handleTransformEnd}
             boundBoxFunc={(oldBox, newBox) => {
                 // Prevent scaling below 5px width/height

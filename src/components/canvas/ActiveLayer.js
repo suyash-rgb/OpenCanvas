@@ -2,12 +2,18 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import TransformerView from './TransformerView';
 import RoughRectangle from '../elements/RoughRectangle';
+import RoughEllipse from '../elements/RoughEllipse';
+import CanvasText from '../elements/CanvasText';
 import Scribble from '../elements/Scribble';
 
 const renderElement = (element) => {
     switch (element.type) {
         case 'rectangle':
             return <RoughRectangle key={element.id} element={element} />;
+        case 'ellipse':
+            return <RoughEllipse key={element.id} element={element} />;
+        case 'text':
+            return <CanvasText key={element.id} element={element} />;
         case 'scribble':
         case 'arrow':
             return <Scribble key={element.id} element={element} />;

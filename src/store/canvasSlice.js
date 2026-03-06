@@ -49,6 +49,51 @@ export const canvasSlice = createSlice({
             });
             state.elements.selectedIds = [];
         },
+        saveHistory(state) {
+            // Keep the last 50 states to prevent massive memory usage
+            if (state.history.past.length >= 50) {
+                state.history.past.shift();
+            }
+            // Push deep copy of elements state
+            state.history.past.push({
+                byId: JSON.parse(JSON.stringify(state.elements.byId)),
+                allIds: [...state.elements.allIds]
+            });
+            // Clear future when new actions are taken
+            state.history.future = [];
+        },
+        undo(state) {
+            if (state.history.past.length === 0) return;
+
+            const previous = state.history.past.pop();
+
+            // Save current state to future
+            state.history.future.push({
+                byId: JSON.parse(JSON.stringify(state.elements.byId)),
+                allIds: [...state.elements.allIds]
+            });
+
+            // Apply past state
+            state.elements.byId = previous.byId;
+            state.elements.allIds = previous.allIds;
+            state.elements.selectedIds = [];
+        },
+        redo(state) {
+            if (state.history.future.length === 0) return;
+
+            const next = state.history.future.pop();
+
+            // Save current state to past
+            state.history.past.push({
+                byId: JSON.parse(JSON.stringify(state.elements.byId)),
+                allIds: [...state.elements.allIds]
+            });
+
+            // Apply future state
+            state.elements.byId = next.byId;
+            state.elements.allIds = next.allIds;
+            state.elements.selectedIds = [];
+        },
     },
 });
 
@@ -59,6 +104,9 @@ export const {
     updateElement,
     setSelected,
     deleteSelected,
+    saveHistory,
+    undo,
+    redo,
 } = canvasSlice.actions;
 
 export default canvasSlice.reducer;
